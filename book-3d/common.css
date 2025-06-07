@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  background: #111;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+.box-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &:has(.control button.up:active) .camera-up {
+    animation-play-state: running;
+  }
+  &:has(.control button.down:active) .camera-down {
+    animation-play-state: running;
+  }
+  &:has(.control button.left:active) .camera-left {
+    animation-play-state: running;
+  }
+  &:has(.control button.right:active) .camera-right {
+    animation-play-state: running;
+  }
+}
+
+.box {
+  position: relative;
+  width: 200px; /* 가로 */
+  height: 300px; /* 세로 */
+  transform-style: preserve-3d;
+
+  .face {
+    position: absolute;
+    background: rgba(0, 200, 255, 0.6);
+    border: 1px solid #fff;
+
+    &.front {
+      width: 200px;
+      height: 300px;
+      transform: translateZ(50px);
+    }
+
+    &.back {
+      width: 200px;
+      height: 300px;
+      transform: rotateY(180deg) translateZ(50px);
+    }
+
+    &.right {
+      width: 100px;
+      height: 300px;
+      transform: rotateY(90deg) translateZ(150px);
+      left: 0;
+    }
+
+    &.left {
+      width: 100px;
+      height: 300px;
+      transform: rotateY(-90deg) translateZ(50px);
+      left: 0;
+    }
+
+    /* 위/아래 면 */
+    &.top {
+      width: 200px;
+      height: 100px;
+      transform: rotateX(90deg) translateZ(-50px);
+      top: -100px;
+    }
+
+    &.bottom {
+      width: 200px;
+      height: 100px;
+      transform: rotateX(-90deg) translateZ(150px);
+      top: 100px;
+    }
+  }
+}
+
+.control {
+  display: flex;
+  gap: 1rem;
+
+  button {
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #fff;
+    border-radius: 0.5rem;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.camera-container {
+  perspective: 1000px;
+
+  &:where(.camera-up, .camera-down, .camera-left, .camera-right) {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+  }
+
+  .camera-up {
+    animation: 10000s linear 1ms paused camera-up;
+  }
+
+  .camera-down {
+    animation: 10000s linear 1ms paused camera-down;
+  }
+
+  .camera-left {
+    animation: 10000s linear 1ms paused camera-left;
+  }
+
+  .camera-right {
+    animation: 10000s linear 1ms paused camera-right;
+  }
+}
+
+@keyframes camera-up {
+  from {
+    rotate: x 0turn;
+  }
+  to {
+    rotate: x calc(-1 * 3000turn);
+  }
+  to {
+  }
+}
+
+@keyframes camera-down {
+  from {
+    rotate: x 0turn;
+  }
+  to {
+    rotate: x calc(3000turn);
+  }
+}
+
+@keyframes camera-left {
+  from {
+    rotate: y 0turn;
+  }
+  to {
+    rotate: y calc(3000turn);
+  }
+}
+
+@keyframes camera-right {
+  from {
+    rotate: y 0turn;
+  }
+  to {
+    rotate: y calc(-1 * 3000turn);
+  }
+}
