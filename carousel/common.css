@@ -1,0 +1,218 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Malgun Gothic;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+button {
+  background: transparent;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.container {
+  width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+section article {
+  padding: 3rem 0;
+}
+section article h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  padding-bottom: 3rem;
+}
+
+.carousel {
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  display: grid;
+  grid-auto-flow: column;
+  gap: 2rem;
+
+  &::before,
+  &::after {
+    display: block;
+    content: "";
+    inline-size: 50cqi;
+  }
+
+  .item {
+    position: relative;
+    width: 400px;
+    height: 600px;
+
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+
+    container-type: scroll-state;
+    container-name: snap-container;
+    border-radius: 1rem;
+    overflow: hidden;
+
+    .image-box {
+      width: 100%;
+      height: 100%;
+    }
+
+    .text-box {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      padding: 4rem 2rem 2rem 2rem;
+      background: linear-gradient(to top, #000, 75%, #0000);
+      transform: translateY(100%);
+      transition: 0.5s linear;
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+        padding-bottom: 1rem;
+      }
+      .description {
+        font-size: 0.875rem;
+        color: #fff;
+        word-break: break-all;
+      }
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @container snap-container scroll-state(snapped: inline) {
+    .text-box {
+      transform: translateY(0%) !important;
+    }
+  }
+}
+
+.carousel {
+  anchor-name: --carousel;
+}
+.carousel {
+  position: relative;
+  &:scroll-button(*) {
+    inline-size: 48px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid #999;
+    margin: 5px;
+  }
+
+  &::scroll-button(left):hover,
+  &::scroll-button(right):hover {
+    background: #eee;
+  }
+
+  &::scroll-button(left) {
+    position: absolute;
+    cursor: pointer;
+
+    background: transparent;
+    border: 0;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #888;
+
+    margin: 1rem;
+    position-anchor: --carousel;
+    position-area: inline-start center;
+
+    content: "⬅" / "Scroll Left"; /* 왼쪽 버튼 콘텐츠 */
+    grid-area: left; /* 그리드 위치 */
+  }
+
+  &::scroll-button(right) {
+    position: absolute;
+    cursor: pointer;
+
+    background: transparent;
+    border: 0;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #888;
+
+    margin: 1rem;
+    position-anchor: --carousel;
+    position-area: inline-end center;
+
+    content: "⮕" / "Scroll Right"; /* 오른쪽 버튼 콘텐츠 */
+    grid-area: right;
+  }
+}
+
+.carousel {
+  scroll-marker-group: after;
+
+  &::scroll-marker-group {
+    width: min-content;
+    display: grid;
+    grid-area: markers;
+    place-content: safe center;
+    /* display: grid; */
+    /* grid-auto-flow: column; */
+    /* grid-template-rows: 30px; */
+    /* grid-template-columns: 30px; */
+
+    grid: 0.875rem / auto-flow 0.875rem; /* 마커 간격 설정 */
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  & .item {
+    &::scroll-marker {
+      content: " "; /* 비어있는 콘텐츠로 마커 생성 */
+      border: 1px solid #bbb;
+      border-radius: 50%; /* 원형 마커 */
+      outline-offset: 4px;
+      -webkit-tap-highlight-color: transparent;
+      scroll-snap-align: center; /* 마커 위치 맞춤 */
+    }
+
+    &::scroll-marker:is(:hover, :focus-visible) {
+      border-color: LinkText; /* 포커스/호버 시 강조 */
+    }
+
+    &::scroll-marker:target-current {
+      background: LinkText;
+      border-color: LinkText; /* 현재 항목 강조 */
+    }
+  }
+}
+
+.carousel {
+  grid-area: scroll;
+}
+
+.carousel-container {
+  width: 1440px;
+  display: grid;
+  grid-template-areas:
+    "scroll scroll scroll"
+    ". markers .";
+
+  grid-template-columns: auto auto auto;
+  justify-content: center;
+}
